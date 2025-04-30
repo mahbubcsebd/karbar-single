@@ -1,0 +1,36 @@
+image: node:20.17.0
+
+stages:
+  - install
+  - deploy
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - .next/cache
+
+variables:
+  NODE_ENV: production
+
+before_script:
+  - echo "Installing dependencies and setting up environment..."
+
+install_dependencies:
+  stage: install
+  script:
+    - npm install
+  timeout: 10m  # Set to 30 minutes, adjust as necessary
+  artifacts:
+    paths:
+      - node_modules/  # or any other build files
+    expire_in: 10m  # Optional: Limit how long the artifacts are kept
+
+
+deploy:
+  stage: deploy
+  script:
+    - chmod +x ./scripts/evascollection-deploy.sh
+    - bash ./scripts/evascollection-deploy.sh
+  only:
+    - main

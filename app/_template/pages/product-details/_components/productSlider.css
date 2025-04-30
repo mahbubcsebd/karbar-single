@@ -1,0 +1,115 @@
+.product-slider .swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.product-slider .swiper-slide {
+    background-position: center;
+    background-size: cover;
+}
+
+.product-slider .swiper-slide img {
+    display: block;
+    width: 100%;
+}
+
+.slider-thumb .swiper-slide {
+    height: 140px;
+    overflow: hidden;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    opacity: 0.4;
+    cursor: pointer;
+    border: 1px solid blue;
+}
+
+.slider-thumb .swiper-slide-thumb-active {
+    opacity: 1;
+}
+
+.slider-thumb .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slider-thumb.landscape-thumb .swiper-slide {
+    height: 100px;
+    overflow: hidden;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+@media screen and (max-width: 1024px) {
+    .slider-thumb.landscape-thumb .swiper-slide {
+        height: 75px;
+        overflow: hidden;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .slider-thumb.landscape-thumb .swiper-slide {
+        height: 75px;
+        overflow: hidden;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+
+    .slider-thumb .swiper-slide {
+        height: 104px;
+        overflow: hidden;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .slider-thumb.landscape-thumb .swiper-slide {
+        height: 104px;
+        overflow: hidden;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .slider-thumb .swiper-slide {
+        height: 100px;
+        overflow: hidden;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+
+    .slider-thumb.landscape-thumb .swiper-slide {
+        height: 75px;
+        overflow: hidden;
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+}
