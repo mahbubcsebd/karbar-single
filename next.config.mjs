@@ -77,11 +77,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'admin.dhakaibd.com"',
+        hostname: 'admin.dhakaibd.com',
       },
       {
         protocol: 'https',
-        hostname: 'admin.romartbd.com"',
+        hostname: 'admin.romartbd.com',
       },
     ],
   },
