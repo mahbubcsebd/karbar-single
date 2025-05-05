@@ -1,5 +1,5 @@
 import CheckoutPageContent from '@/_template/pages/checkout/CheckoutPageContent';
-import { getSiteSettings } from '@/utils/getSiteSettings';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
 
 export async function generateMetadata() {
     const siteSetting = await getSiteSettings();

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-// import SearchResult from '@/components/SearchResult';
-import SearchContext from '@/reducer/SearchContext';
+// import SearchResult from '@/_components/SearchResult';
+import SearchContext from '@/_reducer/SearchContext';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';

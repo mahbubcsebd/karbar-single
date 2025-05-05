@@ -1,8 +1,8 @@
 "use client";
 
-import SortContext from '@/context/SortContext';
-import useDictionary from '@/hooks/useDictionary';
-import { getAllProduct } from '@/utils/getProduct';
+import SortContext from '@/_context/SortContext';
+import useDictionary from '@/_hooks/useDictionary';
+import { getAllProduct } from '@/_utils/getProduct';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 import SingleShorts from './SingleShorts';

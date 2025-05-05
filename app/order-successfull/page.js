@@ -1,5 +1,5 @@
-import OrderSuccess from '../components/OrderSuccess';
-import { getSiteSettings } from '../utils/getSiteSettings';
+import OrderSuccess from '../_components/OrderSuccess';
+import { getSiteSettings } from '../_utils/getSiteSettings';
 
 
   export async function generateMetadata() {

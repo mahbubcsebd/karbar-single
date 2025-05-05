@@ -1,5 +1,6 @@
+import Advertisement from '@/_components/Advertisement';
 import Testimonials from '../../_components/Testimonials';
-import Advertisement from './_components/Advertisement';
+// import Advertisement from './_components/Advertisement';
 import AllProducts from './_components/AllProducts';
 import Categories from './_components/Categories';
 import DealOfTheWeek from './_components/DealOfTheWeek';

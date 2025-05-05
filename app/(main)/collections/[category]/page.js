@@ -1,5 +1,5 @@
 import CollectionsPageContent from '@/_template/pages/collections/CollectionsPageContent';
-import { getSiteSettings } from '@/utils/getSiteSettings';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
 
 export async function generateMetadata({ params }) {
     const category = (await params).category;

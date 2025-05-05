@@ -1,7 +1,7 @@
+import useDictionary from '@/_hooks/useDictionary';
+import useSiteSetting from '@/_hooks/useSiteSetting';
+import { getAllProduct } from '@/_utils/getProduct';
 import noAvailableImg from '@/assets/icons/no-available.svg';
-import useDictionary from '@/hooks/useDictionary';
-import useSiteSetting from '@/hooks/useSiteSetting';
-import { getAllProduct } from '@/utils/getProduct';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

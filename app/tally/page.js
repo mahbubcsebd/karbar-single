@@ -1,7 +1,7 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
 import { Suspense } from 'react';
-import PosHeader from './component/PosHeader';
-import TallyPage from './component/TallyPage';
+import PosHeader from './_component/PosHeader';
+import TallyPage from './_component/TallyPage';
 
 export async function generateMetadata() {
     const siteSetting = await getSiteSettings('en');

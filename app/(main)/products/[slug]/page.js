@@ -1,6 +1,6 @@
 import ProductDetailsPageContent from '@/_template/pages/product-details/ProductDetailsPageContent';
-import { getProduct } from '@/utils/getProduct';
-import { getSiteSettings } from '@/utils/getSiteSettings';
+import { getProduct } from '@/_utils/getProduct';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
 
 export async function generateMetadata({ params }) {
     const slug = (await params).slug;

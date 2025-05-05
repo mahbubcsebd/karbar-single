@@ -1,5 +1,5 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
-import UserPageContent from '../../components/UserPageContent';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
+import UserPageContent from '../../_components/UserPageContent';
 
 export async function generateMetadata({ params }) {
     const userName = (await params)?.userName;

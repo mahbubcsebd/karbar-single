@@ -1,6 +1,6 @@
 "use client"
-import KarbarButton from "@/components/KarbarButton";
-import { postForgotPassword } from "@/utils/forgotPassword";
+import KarbarButton from "@/_components/KarbarButton";
+import { postForgotPassword } from "@/_utils/forgotPassword";
 import { useState } from "react";
 import { toast } from "react-toastify";
 

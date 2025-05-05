@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5';
 import { RxCross2 } from 'react-icons/rx';
-import usePos from '../../hooks/usePos';
+import usePos from '../../_hooks/usePos';
 
 const PosSearch = ({ search, setSearch, products }) => {
     const [debouncedValue, setDebouncedValue] = useState(search);

@@ -1,7 +1,7 @@
 'use server'
 
 import { toast } from 'react-toastify';
-import { loginUser, registerUser } from '../utils/auth/getAuth';
+import { loginUser, registerUser } from '../_utils/auth/getAuth';
 
  const authHandler = async (data, authType) => {
      if (authType === 'signUp') {

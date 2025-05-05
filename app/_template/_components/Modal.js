@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client"
 import { useContext, useEffect, useRef } from 'react';
-import { ModalContext } from '../../context/ModalContext';
+import { ModalContext } from '../../_context/ModalContext';
 
 const Modal = ({videoUrl}) => {
     const {isOpen, setIsOpen} = useContext(ModalContext);

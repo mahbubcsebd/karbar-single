@@ -6,7 +6,7 @@ import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './hero.css';
 
-import useDictionary from '@/hooks/useDictionary';
+import useDictionary from '@/_hooks/useDictionary';
 import dynamic from 'next/dynamic';
 import { useMemo, useRef } from 'react';
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';

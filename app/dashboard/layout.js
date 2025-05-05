@@ -1,10 +1,10 @@
 "use client"
 
+import useUser from '@/_hooks/useUser';
 import Footer from "@/_template/_components/Footer";
 import Header from "@/_template/_components/Header";
-import useUser from '@/hooks/useUser';
 import { useRouter } from 'next/navigation';
-import DashboardSidebar from './components/DashboardSidebar';
+import DashboardSidebar from './_components/DashboardSidebar';
 
 export default function Layout({ children }) {
     const {user} = useUser();

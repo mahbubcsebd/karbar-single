@@ -1,4 +1,4 @@
-import SortContext from "@/context/SortContext";
+import SortContext from "@/_context/SortContext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { IoIosArrowForward } from "react-icons/io";

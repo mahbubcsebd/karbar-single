@@ -1,5 +1,5 @@
+import KarbarButton from '@/_components/KarbarButton';
 import borderImg from "@/assets/icons/border.svg";
-import KarbarButton from '@/components/KarbarButton';
 import Image from 'next/image';
 import { BiEditAlt } from 'react-icons/bi';
 import { FaStar } from 'react-icons/fa';

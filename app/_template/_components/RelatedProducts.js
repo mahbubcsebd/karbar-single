@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import PreLoader from '@/components/PreLoader';
-import SectionTitle from '@/components/SectionTitle';
-import useDictionary from '@/hooks/useDictionary';
-import useFetchData from '@/hooks/useFetchData';
-import { getProduct } from '@/utils/getProduct';
+import PreLoader from '@/_components/PreLoader';
+import SectionTitle from '@/_components/SectionTitle';
+import useDictionary from '@/_hooks/useDictionary';
+import useFetchData from '@/_hooks/useFetchData';
+import { getProduct } from '@/_utils/getProduct';
 import ProductCard from './ProductCard';
 
 const RelatedProducts = ({ slug }) => {

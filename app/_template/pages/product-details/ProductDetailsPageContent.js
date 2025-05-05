@@ -1,5 +1,6 @@
+import ProductDetailsContent from "@/(main)/products/_components/ProductDetailsPage";
 import RelatedProducts from "../../_components/RelatedProducts";
-import ProductDetailsContent from "./_components/ProductDetailsPage";
+// import RelatedProducts from "@/template/_components/RelatedProducts";
 
 const ProductDetailsPageContent = ({slug}) => {
   return (

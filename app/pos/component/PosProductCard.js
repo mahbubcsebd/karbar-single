@@ -1,10 +1,10 @@
 'use client';
 
+import useDictionary from '@/_hooks/useDictionary';
+import useSiteSetting from '@/_hooks/useSiteSetting';
 import noAvailableImg from '@/assets/icons/no-available.svg';
-import useDictionary from '@/hooks/useDictionary';
-import useSiteSetting from '@/hooks/useSiteSetting';
 import Image from 'next/image';
-import usePos from '../../hooks/usePos';
+import usePos from '../../_hooks/usePos';
 
 const PosProductCard = ({ product }) => {
   const { dictionary } = useDictionary();

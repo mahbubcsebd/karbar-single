@@ -34,7 +34,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/components/KarbarButton.js"
+    "app/_components/KarbarButton.js"
   ],
   "exclude": [
     "node_modules"

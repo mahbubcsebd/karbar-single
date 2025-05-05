@@ -1,7 +1,7 @@
-// import PosProvider from '@/context/PosProductContext';
+// import PosProvider from '@/_context/PosProductContext';
 
-import { PosProvider } from "../context/PosProductContext";
-import AuthProvider from "../provider/authProvider";
+import { PosProvider } from "../_context/PosProductContext";
+import AuthProvider from "../_provider/authProvider";
 
 const PosLayout = ({ children }) => {
     return (

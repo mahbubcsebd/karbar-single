@@ -1,5 +1,5 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
-import OrderDetailsPageContent from '../../components/OrderDetailsPageContent';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
+import OrderDetailsPageContent from '../../_components/OrderDetailsPageContent';
 
 export async function generateMetadata({ params }) {
     const orderId = (await params)?.orderId;

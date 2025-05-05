@@ -1,9 +1,9 @@
 'use client';
 
+import useDictionary from '@/_hooks/useDictionary';
+import useSiteSetting from '@/_hooks/useSiteSetting';
+import useUser from '@/_hooks/useUser';
 import logo from '@/assets/icons/logo.svg';
-import useDictionary from '@/hooks/useDictionary';
-import useSiteSetting from '@/hooks/useSiteSetting';
-import useUser from '@/hooks/useUser';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';

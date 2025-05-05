@@ -2,7 +2,7 @@ import {
     Dialog,
     DialogContent,
     DialogTrigger
-} from '@/components/ui/dialog';
+} from '@/_components/ui/dialog';
 
 const CartModal = ({ children }) => {
     return (

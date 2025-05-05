@@ -1,5 +1,5 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
-import ProfileEditContent from '../components/ProfileEditContent';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
+import ProfileEditContent from '../_components/ProfileEditContent';
 
 export async function generateMetadata() {
     const siteSetting = await getSiteSettings();

@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import KarbarButton from '@/_components/KarbarButton';
+import useDictionary from '@/_hooks/useDictionary';
+import { getAllProduct } from '@/_utils/getProduct';
 import latestCampain1 from '@/assets/images/latest-campain-1.png';
 import latestCampain2 from '@/assets/images/latest-campain-2.png';
-import KarbarButton from '@/components/KarbarButton';
-import useDictionary from '@/hooks/useDictionary';
-import { getAllProduct } from '@/utils/getProduct';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

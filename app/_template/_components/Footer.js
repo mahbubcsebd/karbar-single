@@ -1,14 +1,14 @@
 'use client';
 
+import useDictionary from '@/_hooks/useDictionary';
+import useSiteSetting from '@/_hooks/useSiteSetting';
+import getPages from '@/_utils/getPages';
+import { getPaymentMethod } from '@/_utils/getPaymentMethod';
 import bkashIcon from '@/assets/icons/bkash.svg';
 import codIcon from '@/assets/icons/cod.svg';
 import logo from '@/assets/icons/footer-logo.svg';
 import karbar from '@/assets/icons/karbar-logo.svg';
 import nagadIcon from '@/assets/icons/nagad.svg';
-import useDictionary from '@/hooks/useDictionary';
-import useSiteSetting from '@/hooks/useSiteSetting';
-import getPages from '@/utils/getPages';
-import { getPaymentMethod } from '@/utils/getPaymentMethod';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import useDictionary from '@/hooks/useDictionary';
+import useDictionary from '@/_hooks/useDictionary';
 import { useSearchParams } from 'next/navigation';
 import {
     Suspense,
@@ -11,9 +11,9 @@ import {
     useRef,
     useState,
 } from 'react';
-import useAuth from '../../hooks/useAuth';
-import { getPosCategories } from '../../utils/pos/getPosCategories';
-import { getPosProductProducts } from '../../utils/pos/getPosProducts';
+import useAuth from '../../_hooks/useAuth';
+import { getPosCategories } from '../../_utils/pos/getPosCategories';
+import { getPosProductProducts } from '../../_utils/pos/getPosProducts';
 import BillTable from './BillTable';
 import CustomerList from './CustomerList';
 import PosProductCard from './PosProductCard';

@@ -1,10 +1,11 @@
 'use client';
 
+import SortContext from '@/_context/SortContext';
+import useDictionary from '@/_hooks/useDictionary';
+import { getAllCategories } from '@/_utils/categories';
 import vegetables from '@/assets/icons/vegetable.svg';
-import SortContext from '@/context/SortContext';
-import useDictionary from '@/hooks/useDictionary';
-import { getAllCategories } from '@/utils/categories';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useEffect, useState } from 'react';
 
@@ -28,11 +29,6 @@ const Categories = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
-  const handleCategoryClick = (slug) => {
-    setSortQuery(slug);
-    router.push('/collections/all');
-  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -59,10 +55,8 @@ const Categories = () => {
             <ul className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-6 xl:grid-cols-10 xxl:grid-cols-12 gap-3 py-5 lg:py-10 xl:gap-[21px] xxl:gap-6 md:py-16">
               {categoryList.map((category) => (
                 <li key={category.id}>
-                  <button
-                    type="button"
-                    aria-label="category button"
-                    onClick={() => handleCategoryClick(category.slug)}
+                  <Link
+                    href={`/collections/${category.slug}`}
                     className="block w-full text-center"
                   >
                     <div className="w-full aspect-square bg-[#C0E5C3] rounded-lg mb-1 lg:mb-3 flex items-center justify-center overflow-hidden">
@@ -77,7 +71,7 @@ const Categories = () => {
                     <p className="text-xs font-semibold text-gray-800 md:text-sm lg:text-base">
                       {category.name}
                     </p>
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

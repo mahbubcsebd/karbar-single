@@ -1,5 +1,5 @@
-import { getPageDetails } from "@/utils/getPages";
-import { getSiteSettings } from "@/utils/getSiteSettings";
+import { getPageDetails } from "@/_utils/getPages";
+import { getSiteSettings } from "@/_utils/getSiteSettings";
 
 export async function generateMetadata({ params }) {
     const slug = params?.slug || ''; // Fallback to an empty string if slug is undefined

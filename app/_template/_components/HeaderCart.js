@@ -1,8 +1,8 @@
 'use client';
 
-import KarbarButton from '@/components/KarbarButton';
-import { ProductContext } from '@/context/cartContext';
-import useSiteSetting from '@/hooks/useSiteSetting';
+import KarbarButton from '@/_components/KarbarButton';
+import { ProductContext } from '@/_context/cartContext';
+import useSiteSetting from '@/_hooks/useSiteSetting';
 import Image from 'next/image';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { BsCart3 } from 'react-icons/bs';

@@ -1,6 +1,6 @@
 "use client";
 
-import useDictionary from '@/hooks/useDictionary';
+import useDictionary from '@/_hooks/useDictionary';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 

@@ -1,7 +1,7 @@
 'use client';
 
-import useDictionary from '@/hooks/useDictionary';
-import { getCategoryWiseProduct } from '@/utils/getProduct';
+import useDictionary from '@/_hooks/useDictionary';
+import { getCategoryWiseProduct } from '@/_utils/getProduct';
 import dynamic from 'next/dynamic';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 

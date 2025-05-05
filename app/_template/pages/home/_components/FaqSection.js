@@ -1,17 +1,17 @@
 'use client';
 
-import latestbg from '@/assets/images/latest-bg.svg';
 import {
     AccordionContent,
     AccordionItem,
     Accordion as AccordionRoot,
     AccordionTrigger,
-} from '@/components/ui/accordion';
+} from '@/_components/ui/accordion';
+import useDictionary from '@/_hooks/useDictionary';
+import useFetchData from '@/_hooks/useFetchData';
+import getFaq from '@/_utils/getFaq';
+import latestbg from '@/assets/images/latest-bg.svg';
 import Image from 'next/image';
 import { useState } from 'react';
-import useDictionary from '@/hooks/useDictionary';
-import useFetchData from '@/hooks/useFetchData';
-import getFaq from '@/utils/getFaq';
 import SectionTitle from '../../../_components/SectionTitle';
 
 const FaqSection = ({ bg }) => {

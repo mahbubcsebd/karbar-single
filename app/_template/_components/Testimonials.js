@@ -1,8 +1,8 @@
 'use client';
 
+import useDictionary from '@/_hooks/useDictionary';
+import { getTestimonials } from '@/_utils/getTestimonial';
 import latestbg from '@/assets/images/latest-bg.svg';
-import useDictionary from '@/hooks/useDictionary';
-import { getTestimonials } from '@/utils/getTestimonial';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import 'swiper/css';

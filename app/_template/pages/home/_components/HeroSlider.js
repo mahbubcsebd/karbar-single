@@ -1,6 +1,6 @@
 'use client';
 
-import { getHeroImage } from '@/utils/getHeroImage';
+import { getHeroImage } from '@/_utils/getHeroImage';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ const HeroSlider = () => {
   return (
     <div id="hero" className="hero">
       <div className="hero-area">
-        <div className="hero-slider-container relative w-full h-[220px] md:h-[320px] lg:h-[370px] overflow-hidden mb-10">
+        <div className="hero-slider-container relative w-full h-[220px] md:h-[320px] lg:h-[370px] overflow-hidden">
           {loading || !images.length ? (
             <div className="w-full h-full bg-gray-300 animate-pulse" />
           ) : (
@@ -55,7 +55,7 @@ const HeroSlider = () => {
                         src={img.image_url}
                         alt={img.title}
                         fill
-                        className="object-cover"
+                        className="object-cover w-full h-full"
                         priority={index === 0}
                         loading={index === 0 ? 'eager' : 'lazy'}
                         quality={100}

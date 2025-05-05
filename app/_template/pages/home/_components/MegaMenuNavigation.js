@@ -1,7 +1,7 @@
 'use client';
 
-import useDictionary from '@/hooks/useDictionary';
-import { getAllCategories } from '@/utils/categories';
+import useDictionary from '@/_hooks/useDictionary';
+import { getAllCategories } from '@/_utils/categories';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

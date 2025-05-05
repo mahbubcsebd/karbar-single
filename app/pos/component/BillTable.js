@@ -7,9 +7,9 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@/components/ui/table';
+} from '@/_components/ui/table';
 
-import Input from '@/components/form/Input';
+import Input from '@/_components/form/Input';
 import {
     Dialog,
     DialogContent,
@@ -17,23 +17,23 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/_components/ui/dialog';
 
-import useAdManager from '@/hooks/useAdManager';
-import useAuth from '@/hooks/useAuth';
-import useDictionary from '@/hooks/useDictionary';
-import usePos from '@/hooks/usePos';
-import { getSiteSettings } from '@/utils/getSiteSettings';
-import { getPosUser } from '@/utils/pos/getPosUser';
+import useAdManager from '@/_hooks/useAdManager';
+import useAuth from '@/_hooks/useAuth';
+import useDictionary from '@/_hooks/useDictionary';
+import usePos from '@/_hooks/usePos';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
+import { getPosUser } from '@/_utils/pos/getPosUser';
 import { useEffect, useState } from 'react';
 import { BiSolidEdit } from 'react-icons/bi';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 import { IoCartOutline } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { toast } from 'react-toastify';
-import { trackEvent } from '../../utils/facebookPixel';
-import { getCoupon } from '../../utils/getCoupon';
-import { salePost } from '../../utils/pos/salePost';
+import { trackEvent } from '../../_utils/facebookPixel';
+import { getCoupon } from '../../_utils/getCoupon';
+import { salePost } from '../../_utils/pos/salePost';
 import CouponModal from './modal/CouponModal';
 import NoteModal from './modal/NoteModal';
 import RecentSaleModal from './modal/RecentSaleModal';
@@ -937,29 +937,28 @@ const BillTable = ({
                     </div>
                 </div>
             </div>
-            <div className="">
-                <Dialog
-                    open={invoiceModalOpen}
-                    onOpenChange={setInvoiceModalOpen}
+           <div className="">
+            <Dialog open={invoiceModalOpen} onOpenChange={setInvoiceModalOpen}>
+                <DialogContent
+                    className="sm:max-w-[425px] bg-[#F6F4FD] border-[rgba(136, 49, 225, 0.20)] max-h-[90vh] scrollbar-hide overflow-y-auto"
                 >
-                    <DialogContent className="sm:max-w-[425px] bg-[#F6F4FD] border-[rgba(136, 49, 225, 0.20)]">
-                        <DialogHeader className="sr-only">
-                            <DialogTitle>Coupon</DialogTitle>
-                            <DialogDescription>
-                                Coupon Description
-                            </DialogDescription>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                            <div
-                                className=""
-                                dangerouslySetInnerHTML={{
-                                    __html: invoice,
-                                }}
-                            ></div>
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            </div>
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Coupon</DialogTitle>
+                        <DialogDescription>
+                            Coupon Description
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: invoice,
+                            }}
+                        ></div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
+
         </>
     );
 };

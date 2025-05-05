@@ -1,15 +1,15 @@
-import orderIcon from '@/assets/icons/order.svg';
-import profileIcon from '@/assets/icons/profile.svg';
-import profileImg from '@/assets/images/profile.png';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import useDictionary from '@/hooks/useDictionary';
-import useUser from '@/hooks/useUser';
+} from '@/_components/ui/dropdown-menu';
+import useDictionary from '@/_hooks/useDictionary';
+import useUser from '@/_hooks/useUser';
+import orderIcon from '@/assets/icons/order.svg';
+import profileIcon from '@/assets/icons/profile.svg';
+import profileImg from '@/assets/images/profile.png';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -91,7 +91,7 @@ const AuthUser = ({theme}) => {
                     >
                         <Link
                             href={`/dashboard/user/${user?.username}`}
-                            className="flex items-center w-full gap-2 px-3 py-2 text-base font-normal text-gray-800 transition-all duration-150 rounded-sm auth-link hover:bg-gray-300 capitalize"
+                            className="flex items-center w-full gap-2 px-3 py-2 text-base font-normal text-gray-800 capitalize transition-all duration-150 rounded-sm auth-link hover:bg-gray-300"
                         >
                             <Image
                                 src={profileIcon}
@@ -107,7 +107,7 @@ const AuthUser = ({theme}) => {
                     >
                         <Link
                             href="/dashboard/my-orders"
-                            className="flex items-center w-full gap-2 px-3 py-2 text-base font-normal text-gray-800 transition-all duration-150 rounded-sm auth-link hover:bg-gray-300 capitalize"
+                            className="flex items-center w-full gap-2 px-3 py-2 text-base font-normal text-gray-800 capitalize transition-all duration-150 rounded-sm auth-link hover:bg-gray-300"
                         >
                             <Image
                                 src={orderIcon}

@@ -1,4 +1,4 @@
-import CheckoutContent from './_components/CheckoutContent';
+import CheckoutContent from '@/(main)/checkout/_components/CheckoutContent';
 
 const CheckoutPageContent = () => {
     return (

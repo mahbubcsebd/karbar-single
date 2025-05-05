@@ -1,4 +1,4 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
 import HomePageContent from '../_template/pages/home/HomePageContent';
 
 export async function generateMetadata() {

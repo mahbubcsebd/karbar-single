@@ -1,4 +1,4 @@
-import RatingReadOnly from '@/components/RatingReadOnly';
+import RatingReadOnly from '@/_components/RatingReadOnly';
 import Image from 'next/image';
 import Link from 'next/link';
 

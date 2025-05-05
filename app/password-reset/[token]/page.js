@@ -1,7 +1,7 @@
 'use client';
 
-import KarbarButton from '@/components/KarbarButton';
-import { postResetPassword } from '@/utils/forgotPassword';
+import KarbarButton from '@/_components/KarbarButton';
+import { postResetPassword } from '@/_utils/forgotPassword';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';

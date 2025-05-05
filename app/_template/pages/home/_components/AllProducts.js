@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import KarbarButton from '@/components/KarbarButton';
-import useDictionary from '@/hooks/useDictionary';
-import { getAllCategories } from '@/utils/categories';
-import { getAllProduct } from '@/utils/getProduct';
+import KarbarButton from '@/_components/KarbarButton';
+import useDictionary from '@/_hooks/useDictionary';
+import { getAllCategories } from '@/_utils/categories';
+import { getAllProduct } from '@/_utils/getProduct';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import ProductCard from '../../../_components/ProductCard';
 import SkeletonCard from '../../../_components/SkeletonCard';

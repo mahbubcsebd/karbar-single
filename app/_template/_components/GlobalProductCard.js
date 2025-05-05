@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import { useContext, useEffect, useRef, useState } from 'react';
 // import { useContext } from "react";
+import KarbarButton from '@/_components/KarbarButton';
+import { ProductContext } from '@/_context/cartContext';
+import useDictionary from '@/_hooks/useDictionary';
+import useSiteSetting from '@/_hooks/useSiteSetting';
 import noAvailableImg from '@/assets/icons/no-available.svg';
-import KarbarButton from '@/components/KarbarButton';
-import { ProductContext } from '@/context/cartContext';
-import useDictionary from '@/hooks/useDictionary';
-import useSiteSetting from '@/hooks/useSiteSetting';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
-// import { ProductContext } from "@/context/cartContext";
+// import { ProductContext } from "@/_context/cartContext";
 
 const GlobalProductCard = ({ product }) => {
     const productCardRef = useRef(null);

@@ -1,5 +1,5 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
-import MyOrdersPageContent from '../components/MyOrderPageContent';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
+import MyOrdersPageContent from '../_components/MyOrderPageContent';
 // import MyOrdersPageContent from '../components/MyOrdersPageContent ';
 
 export async function generateMetadata() {

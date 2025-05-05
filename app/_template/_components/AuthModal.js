@@ -5,11 +5,11 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog';
-import useDictionary from '@/hooks/useDictionary';
-import useUser from '@/hooks/useUser';
-import { encrypt } from '@/services/encryption';
-import { getUserDetails, loginUser, registerUser } from '@/utils/auth/getAuth';
+} from '@/_components/ui/dialog';
+import useDictionary from '@/_hooks/useDictionary';
+import useUser from '@/_hooks/useUser';
+import { encrypt } from '@/_services/encryption';
+import { getUserDetails, loginUser, registerUser } from '@/_utils/auth/getAuth';
 import emails from 'disposable-email-domains';
 import Cookies from 'js-cookie';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
@@ -98,57 +98,61 @@ const AuthModal = ({ children, type = 'signIn' }) => {
     };
 
     const onSubmit = async (data) => {
-
-
         if (authType === 'signUp') {
-             let cleanedPhone = data.phone;
+            let cleanedPhone = data.phone;
+            let username = data.phone;
 
-             // Parse and clean phone number
-             const phoneNumber = parsePhoneNumberFromString(
-               data.phone,
-               country
-             );
+            const phoneNumber = parsePhoneNumberFromString(data.phone, country);
 
-             if (phoneNumber) {
-               // Get the national number without the country code
-               cleanedPhone = phoneNumber.nationalNumber;
-             }
+            if (phoneNumber) {
+            const nationalNumber = phoneNumber.nationalNumber;
 
-            // Handle sign-up logic
-            const userData = {
-                name: data.fullName,
-                phone: cleanedPhone,
-                email: data.username,
-                password: data.password,
-                password_confirmation: data.confirmPassword,
-            };
+            // Remove all spaces and keep full international number for phone
+            cleanedPhone = phoneNumber.number.replace(/\s/g, '');
 
-            try {
-                const response = await registerUser(JSON.stringify(userData));
-
-                if (response.ok) {
-                    const responseData = await response.json();
-
-                    if (responseData.success) {
-                        toast.success(`${responseData.message}`, {
-                            position: 'bottom-right',
-                        });
-
-                        // Instead of closing modal, switch to sign in and pre-fill email
-                        setAuthType('signIn');
-                        reset(); // Clear all form fields
-                        setValue('email', data.email); // Pre-fill email field
-                    } else {
-                        toast.error(`${responseData.message}`, {
-                            position: 'bottom-right',
-                        });
-                    }
-                } else {
-                    throw new Error('Failed to register');
-                }
-            } catch (error) {
-                console.error('Error during sign-up:', error);
+            // Username formatting
+            if (phoneNumber.country === 'BD') {
+                username = '0' + nationalNumber;
+            } else {
+                username = nationalNumber;
             }
+        }
+
+        const userData = {
+            name: data.fullName,
+            phone: cleanedPhone,          // Full international number, no spaces (e.g., +8801886225492)
+            username: username,           // As per logic
+            email: data.username,
+            password: data.password,
+            password_confirmation: data.confirmPassword,
+        };
+
+        try {
+            const response = await registerUser(JSON.stringify(userData));
+
+            if (response.ok) {
+                const responseData = await response.json();
+
+                if (responseData.success) {
+                    toast.success(`${responseData.message}`, {
+                        position: 'bottom-right',
+                    });
+
+                    // Instead of closing modal, switch to sign in and pre-fill email
+                    setAuthType('signIn');
+                    reset(); // Clear all form fields
+                    setValue('email', data.email); // Pre-fill email field
+                } else {
+                    toast.error(`${responseData.message}`, {
+                        position: 'bottom-right',
+                    });
+                }
+            } else {
+                throw new Error('Failed to register');
+            }
+        } catch (error) {
+            console.error('Error during sign-up:', error);
+        }
         } else if (authType === 'signIn') {
             const userData = {
                 email_username: data.username,
@@ -333,7 +337,7 @@ const AuthModal = ({ children, type = 'signIn' }) => {
                                             ? 'or phone number'
                                             : ''
                                     } is required`,
-                                    validate: (value) => {
+                                   validate: (value) => {
                                         if (authType === 'signUp') {
                                             return validateEmail(value); // Strict email validation only for sign up
                                         }
@@ -515,7 +519,7 @@ const AuthModal = ({ children, type = 'signIn' }) => {
                                 <button
                                     type="button"
                                     onClick={toggleAuthType}
-                                    className="text-blue-600 underline mb-2 xxl:mb-0"
+                                    className="mb-2 text-blue-600 underline xxl:mb-0"
                                 >
                                     {dictionary.Auth.signin}
                                 </button>

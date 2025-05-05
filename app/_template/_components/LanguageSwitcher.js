@@ -1,7 +1,7 @@
 'use client';
 
-import { LanguageContext } from '@/context/LanguageContext';
-import { getLanguage } from '@/utils/getLanguage';
+import { LanguageContext } from '@/_context/LanguageContext';
+import { getLanguage } from '@/_utils/getLanguage';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext, useEffect, useRef, useState } from 'react';

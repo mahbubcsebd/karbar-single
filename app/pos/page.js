@@ -1,4 +1,4 @@
-import { getSiteSettings } from '@/utils/getSiteSettings';
+import { getSiteSettings } from '@/_utils/getSiteSettings';
 import { Suspense } from 'react';
 import PosHeader from './component/PosHeader';
 import PosProductsList from './component/PosProductsList';

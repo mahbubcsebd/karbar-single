@@ -5,7 +5,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/_components/ui/dialog';
 import SalesTab from '../SalesTab';
 
 const RecentSaleModal = ({ submitHandler, isOpen, setIsOpen }) => {
