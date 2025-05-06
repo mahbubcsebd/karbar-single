@@ -66,7 +66,7 @@ export default function MegaMenuNavigation() {
               <li key={subCat.id}>
                 <Link
                   href={`/collections/${category.slug}?sub_category=${subCat.slug}`}
-                  className={`block py-1 text-sm ${
+                  className={`block py-2 text-sm ${
                     currentSubCategory === subCat.slug
                       ? 'font-semibold text-primary'
                       : 'text-gray-700 hover:text-gray-900'
