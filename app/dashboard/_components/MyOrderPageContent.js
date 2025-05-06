@@ -177,7 +177,7 @@ const MyOrdersPageContent = () => {
     };
     return (
         <div className="h-full bg-white px-[30px] py-12 border border-gray-400 rounded-lg w-full">
-            <h2 className="pb-4 mb-10 text-2xl font-medium text-gray-900 border-b border-gray-400 capitalize">
+            <h2 className="pb-4 mb-10 text-2xl font-medium text-gray-900 capitalize border-b border-gray-400">
                 {dictionary.Auth.myOrders}
             </h2>
             <ul className="border-b border-gray-400 flex items-center gap-4 lg:gap-[30px] flex-wrap">
@@ -286,7 +286,7 @@ const MyOrdersPageContent = () => {
                                                             }
                                                         </button>
                                                     </DialogTrigger>
-                                                    <DialogContent className="sm:max-w-[425px] bg-[#F6F4FD] border-[rgba(136, 49, 225, 0.20)]">
+                                                    <DialogContent className="max-w-[350px] sm:max-w-[425px] bg-[#F6F4FD] border-[rgba(136, 49, 225, 0.20)]">
                                                         <DialogHeader className="sr-only">
                                                             <DialogTitle>
                                                                 Coupon
