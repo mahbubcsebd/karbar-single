@@ -30,7 +30,7 @@ const HeroSlider = () => {
   return (
     <div id="hero" className="hero">
       <div className="hero-area">
-        <div className="hero-slider-container relative w-full h-[220px] md:h-[320px] lg:h-[370px] overflow-hidden">
+        <div className="hero-slider-container relative w-full h-[120px] md:h-[320px] lg:h-[370px] overflow-hidden">
           {loading || !images.length ? (
             <div className="w-full h-full bg-gray-300 animate-pulse" />
           ) : (
@@ -50,7 +50,7 @@ const HeroSlider = () => {
               {images.map((img, index) => (
                 <SwiperSlide key={img.id}>
                   <Link href={img.url} aria-label={`View details for ${img.title}`}>
-                    <div className="relative w-full h-[220px] md:h-[320px] lg:h-[370px]">
+                    <div className="relative w-full h-[120px] md:h-[320px] lg:h-[370px]">
                       <Image
                         src={img.image_url}
                         alt={img.title}

@@ -254,7 +254,7 @@ const ProductList = ({ category }) => {
             </div>
             <div className="flex items-center gap-4">
               <div>
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-col items-start gap-2 sm:items-center sm:flex-row">
                   <p className="text-xs font-normal text-gray-700 lg:text-base">
                     {brandsLang} :
                   </p>
@@ -285,7 +285,7 @@ const ProductList = ({ category }) => {
                 </div>
               </div>
               <div>
-                <div className="flex items-center gap-2 min-w-[250px]">
+                <div className="flex flex-col items-start gap-2 sm:items-center sm:flex-row sm:min-w-[250px]">
                   <label
                     htmlFor="sortFilter"
                     className="text-xs font-normal text-gray-700 lg:text-base"

@@ -163,7 +163,7 @@ export default function RootLayout({ children }) {
                                                                     }
                                                                 </main>
                                                                 <ScrollToTop />
-                                                                <div className="fixed z-[99999999] grid gap-3 md:gap-2 bottom-10 md:bottom-[85px] right-4">
+                                                                <div className="fixed z-[99999999] grid gap-3 md:gap-2 bottom-10 md:bottom-[85px] right-4 sm:right-4">
                                                                     {siteSetting?.whatsapp_id &&
                                                                         pathname !==
                                                                             '/pos' && (

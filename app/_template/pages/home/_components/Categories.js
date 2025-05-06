@@ -46,7 +46,7 @@ const Categories = () => {
   }, [language]);
 
   return (
-    <div className="categories">
+    <div className="categories relative z-10">
       <div className="bg-white border-t border-gray-400 categories-area">
         <div className="container">
           {loading ? (

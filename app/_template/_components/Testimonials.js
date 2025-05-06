@@ -52,7 +52,7 @@ const Testimonials = ({ bg }) => {
             autoplay: { delay: 4000, pauseOnMouseEnter: true },
             pagination: { clickable: true },
             breakpoints: {
-                375: {
+                320: {
                     slidesPerView: Math.min(testimonials.length, 1),
                     spaceBetween: 16,
                 },

@@ -160,6 +160,7 @@ const Footer = () => {
                         quality={60}
                         width={70}
                         height={34}
+                        className="object-contain w-[50px] sm:w-[60px] lg:w-[80px] h-auto"
                       />
                     </li>
                   );
