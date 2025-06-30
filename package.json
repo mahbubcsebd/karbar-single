@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4070",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 4070",
+    "start": "next start",
     "lint": "next lint",
-    "server": "json-server --watch db.json --port 4070",
+    "server": "json-server --watch db.json",
     "test": "jest",
     "check-updates": "npm outdated",
     "update-all": "npm update",
@@ -61,15 +61,14 @@
     "swiper": "^11.2.2",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
+    "zod": "^3.24.1",
+    "postcss": "^8",
+    "tailwindcss": "^4.0.3",
     "@tailwindcss/postcss": "^4.0.3",
     "@types/node": "22.13.0",
     "@types/react": "19.0.8",
     "eslint": "^9",
-    "eslint-config-next": "15.1.6",
-    "postcss": "^8",
-    "tailwindcss": "^4.0.3"
-  }
+    "eslint-config-next": "15.1.6"
+  },
+  "devDependencies": {}
 }

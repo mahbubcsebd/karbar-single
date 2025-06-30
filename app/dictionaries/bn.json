@@ -6,7 +6,8 @@
     "cartEmpty": "কার্টে কোন প্রোডাক্ট নেই।",
     "total": "সর্বমোট",
     "order": "অর্ডার করুন",
-    "currency": "টাকা"
+    "currency": "টাকা",
+    "showAll": "সবগুলো দেখুন"
   },
   "Auth": {
     "profile": "প্রোফাইল",
@@ -64,6 +65,19 @@
     "cancel": "বাতিল",
     "addressPlaceholder": "এখানে আপনার ঠিকানা লিখুন",
     "all": "সব"
+  },
+  "Cart": {
+    "pageTitle": "আপনার কার্ট",
+    "tableProduct": "পণ্য",
+    "tableName": "নাম",
+    "tableQuantity": "পরিমাণ",
+    "tablePrice": "মূল্য",
+    "tableTotal": "মোট",
+    "tableSubTotal": "সাবটোটাল",
+    "tableAction": "মুছুন",
+    "tableEmpty": "আপনার কার্টে কোন প্রোডাক্ট নেই।",
+    "tableCheckout": "চেকআউট করুন",
+    "tableEmptyDesc": "আপনার কার্টে কোন প্রোডাক্ট নেই।"
   },
   "Categories": {
     "allProduct": "সব প্রোডাক্ট",

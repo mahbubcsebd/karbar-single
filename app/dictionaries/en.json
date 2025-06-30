@@ -6,7 +6,8 @@
     "cartEmpty": "Cart is empty",
     "total": "Total",
     "order": "Order Now",
-    "currency": "Taka"
+    "currency": "Taka",
+    "showAll": "Show All"
   },
   "Auth": {
     "profile": "Profile",
@@ -64,6 +65,19 @@
     "cancel": "Cancle",
     "addressPlaceholder": "Enter your address here",
     "all": "All"
+  },
+  "Cart": {
+    "pageTitle": "Your Cart",
+    "tableProduct": "Product",
+    "tableName": "Name",
+    "tableQuantity": "Quantity",
+    "tablePrice": "Price",
+    "tableTotal": "Total",
+    "tableSubTotal": "Subtotal",
+    "tableAction": "Remove",
+    "tableEmpty": "Your cart is empty",
+    "tableCheckout": "Procced to Checkout",
+    "tableEmptyDesc": "Looks like you haven't added anything to your cart yet."
   },
   "Categories": {
     "allProduct": "All Products",

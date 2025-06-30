@@ -6,7 +6,8 @@
     "cartEmpty": "Warenkorb ist leer",
     "total": "Gesamt",
     "order": "Jetzt bestellen",
-    "currency": "Taka"
+    "currency": "Taka",
+    "showAll": "Alle anzeigen"
   },
   "Auth": {
     "profile": "Profil",
@@ -64,6 +65,19 @@
     "cancel": "Abbrechen",
     "addressPlaceholder": "Geben Sie hier Ihre Adresse ein",
     "all": "Alle"
+  },
+  "Cart": {
+    "pageTitle": "Dein Warenkorb",
+    "tableProduct": "Produkt",
+    "tableName": "Name",
+    "tableQuantity": "Menge",
+    "tablePrice": "Preis",
+    "tableTotal": "Gesamt",
+    "tableSubTotal": "Zwischensumme",
+    "tableAction": "Entfernen",
+    "tableEmpty": "Dein Warenkorb ist leer",
+    "tableCheckout": "Zur Kasse gehen",
+    "tableEmptyDesc": "Sieht so aus, als hättest du noch nichts in deinen Warenkorb gelegt."
   },
   "Categories": {
     "allProduct": "Alle Produkte",

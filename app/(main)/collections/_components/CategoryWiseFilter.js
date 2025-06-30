@@ -2,19 +2,19 @@
 
 import { Button } from '@/_components/ui/button';
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
 } from '@/_components/ui/select';
 import { ChevronRight, X } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-export default function CategorySelectForm({
+export default function CategoryWiseFilter({
   categories,
   subCategories,
   setSubCategories,
@@ -25,34 +25,44 @@ export default function CategorySelectForm({
   setSortQuery,
   setBrandQuery,
   router,
+  onCategoryChange,
+  onAllFilter,
 }) {
   const [isClient, setIsClient] = useState(false);
   const searchParams = useSearchParams();
+  const isInitializing = useRef(true);
 
   useEffect(() => {
     setIsClient(true);
-    // Get sub_category from URL on initial load
-    const subCategoryFromUrl = searchParams.get('sub_category');
-    if (subCategoryFromUrl && selectedCategory && selectedCategory !== 'all') {
-      const category = categories.find((cat) => cat.slug === selectedCategory);
-      setSubCategories(category?.sub_category || []);
-      setSelectedSubCategory(subCategoryFromUrl);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Initialize subcategories based on selected category - only run once
   useEffect(() => {
+    if (!isClient || !categories.length) return;
+
     if (selectedCategory && selectedCategory !== 'all') {
       const category = categories.find((cat) => cat.slug === selectedCategory);
-      setSubCategories(category?.sub_category || []);
+      const newSubCategories = category?.sub_category || [];
+      setSubCategories(newSubCategories);
 
-      // Only reset sub-category if there's no sub_category in URL
-      const subCategoryFromUrl = searchParams.get('sub_category');
-      if (!subCategoryFromUrl) {
-        setSelectedSubCategory('all');
+      // Only set subcategory from URL on initial load
+      if (isInitializing.current) {
+        const subCategoryFromUrl = searchParams.get('sub_category');
+        if (
+          subCategoryFromUrl &&
+          newSubCategories.some((sub) => sub.slug === subCategoryFromUrl)
+        ) {
+          setSelectedSubCategory(subCategoryFromUrl);
+        } else {
+          setSelectedSubCategory('all');
+        }
+        isInitializing.current = false;
       }
     } else {
       setSubCategories([]);
+      if (isInitializing.current) {
+        isInitializing.current = false;
+      }
     }
   }, [
     selectedCategory,
@@ -60,45 +70,84 @@ export default function CategorySelectForm({
     setSubCategories,
     setSelectedSubCategory,
     searchParams,
+    isClient,
   ]);
 
-  const handleCategoryChange = (value) => {
-    setSelectedCategory(value);
+  // Optimized category change handler
+  const handleCategoryChange = useCallback(
+    (value) => {
+      if (value === 'all') {
+        onAllFilter();
+      } else {
+        onCategoryChange(value);
+      }
+    },
+    [onCategoryChange, onAllFilter]
+  );
+
+  // Optimized subcategory change handler
+  const handleSubCategoryChange = useCallback(
+    (value) => {
+      setSelectedSubCategory(value);
+      setSortQuery('all');
+
+      if (value === 'all') {
+        router.push(`/collections/${selectedCategory}`);
+      } else {
+        router.push(`/collections/${selectedCategory}?sub_category=${value}`);
+      }
+    },
+    [setSelectedSubCategory, setSortQuery, router, selectedCategory]
+  );
+
+  // Optimized reset handler
+  const handleReset = useCallback(() => {
+    setSelectedCategory('all');
     setSelectedSubCategory('all');
-    setSortQuery('all');
-    router.push(`/collections/${value}`);
-  };
-
-  const handleSubCategoryChange = (value) => {
-    setSelectedSubCategory(value);
-    setSortQuery('all');
-    if (value === 'all') {
-      router.push(`/collections/${selectedCategory}`);
-    } else {
-      router.push(`/collections/${selectedCategory}?sub_category=${value}`);
-    }
-  };
-
-  const handleReset = () => {
-    setSelectedCategory('');
-    setSelectedSubCategory('');
     setSortQuery('all');
     setSubCategories([]);
     setBrandQuery('all');
     router.push('/collections/all');
-  };
+  }, [
+    setSelectedCategory,
+    setSelectedSubCategory,
+    setSortQuery,
+    setSubCategories,
+    setBrandQuery,
+    router,
+  ]);
 
-  const handleBreadcrumbCategoryClick = () => {
+  // Optimized breadcrumb category click
+  const handleBreadcrumbCategoryClick = useCallback(() => {
     setSelectedSubCategory('all');
     setSortQuery('all');
     router.push(`/collections/${selectedCategory}`);
-  };
+  }, [setSelectedSubCategory, setSortQuery, router, selectedCategory]);
 
-  const showSubCategory =
-    selectedCategory &&
-    selectedCategory !== 'all' &&
-    subCategories &&
-    subCategories.length > 0;
+  // Memoize computed values
+  const showSubCategory = useMemo(() => {
+    return (
+      selectedCategory &&
+      selectedCategory !== 'all' &&
+      subCategories &&
+      subCategories.length > 0
+    );
+  }, [selectedCategory, subCategories]);
+
+  const showFilters = useMemo(() => {
+    return (
+      (selectedCategory && selectedCategory !== 'all') ||
+      (selectedSubCategory && selectedSubCategory !== 'all')
+    );
+  }, [selectedCategory, selectedSubCategory]);
+
+  const currentCategoryName = useMemo(() => {
+    return categories.find((cat) => cat.slug === selectedCategory)?.name;
+  }, [categories, selectedCategory]);
+
+  const currentSubCategoryName = useMemo(() => {
+    return subCategories.find((sub) => sub.slug === selectedSubCategory)?.name;
+  }, [subCategories, selectedSubCategory]);
 
   if (!isClient) {
     return null;
@@ -109,7 +158,7 @@ export default function CategorySelectForm({
       <div className="flex items-center">
         <div>
           <Select
-            value={selectedCategory}
+            value={selectedCategory || 'all'}
             onValueChange={handleCategoryChange}
             className="relative z-9999999"
             aria-label="Select category"
@@ -139,10 +188,7 @@ export default function CategorySelectForm({
                 <SelectLabel>Categories</SelectLabel>
                 <SelectItem value="all">All</SelectItem>
                 {categories.map((category) => (
-                  <SelectItem
-                    key={category.id}
-                    value={category.slug}
-                  >
+                  <SelectItem key={category.id} value={category.slug}>
                     {category.name}
                   </SelectItem>
                 ))}
@@ -153,16 +199,13 @@ export default function CategorySelectForm({
         {showSubCategory && (
           <>
             <div className="flex items-center justify-center h-full bg-white border-t border-b border-gray-300">
-              <span
-                className="font-light text-gray-500"
-                aria-hidden="true"
-              >
+              <span className="font-light text-gray-500" aria-hidden="true">
                 |
               </span>
             </div>
             <div>
               <Select
-                value={selectedSubCategory}
+                value={selectedSubCategory || 'all'}
                 onValueChange={handleSubCategoryChange}
                 className="relative z-9999999"
                 aria-label="Select subcategory"
@@ -184,10 +227,7 @@ export default function CategorySelectForm({
                     <SelectLabel>Sub Categories</SelectLabel>
                     <SelectItem value="all">All</SelectItem>
                     {subCategories.map((subCat) => (
-                      <SelectItem
-                        key={subCat.id}
-                        value={subCat.slug}
-                      >
+                      <SelectItem key={subCat.id} value={subCat.slug}>
                         {subCat.name}
                       </SelectItem>
                     ))}
@@ -199,8 +239,7 @@ export default function CategorySelectForm({
         )}
       </div>
 
-      {((selectedCategory && selectedCategory !== 'all') ||
-        selectedSubCategory) && (
+      {showFilters && (
         <div className="flex items-center gap-4">
           <nav
             className="flex items-center space-x-1 text-xs text-gray-600 md:text-sm"
@@ -216,39 +255,21 @@ export default function CategorySelectForm({
             </button>
             {selectedCategory && selectedCategory !== 'all' && (
               <>
-                <ChevronRight
-                  className="w-4 h-4"
-                  aria-hidden="true"
-                />
+                <ChevronRight className="w-4 h-4" aria-hidden="true" />
                 <button
                   onClick={handleBreadcrumbCategoryClick}
                   className="hover:text-gray-900"
-                  aria-label={`Show all products in ${
-                    categories.find((cat) => cat.slug === selectedCategory)
-                      ?.name
-                  } category`}
+                  aria-label={`Show all products in ${currentCategoryName} category`}
                   type="button"
                 >
-                  {
-                    categories.find((cat) => cat.slug === selectedCategory)
-                      ?.name
-                  }
+                  {currentCategoryName}
                 </button>
               </>
             )}
             {selectedSubCategory && selectedSubCategory !== 'all' && (
               <>
-                <ChevronRight
-                  className="w-4 h-4"
-                  aria-hidden="true"
-                />
-                <span className="text-gray-900">
-                  {
-                    subCategories.find(
-                      (sub) => sub.slug === selectedSubCategory
-                    )?.name
-                  }
-                </span>
+                <ChevronRight className="w-4 h-4" aria-hidden="true" />
+                <span className="text-gray-900">{currentSubCategoryName}</span>
               </>
             )}
           </nav>
@@ -260,10 +281,7 @@ export default function CategorySelectForm({
             aria-label="Clear all filters"
             type="button"
           >
-            <X
-              className="w-4 h-4 mr-1"
-              aria-hidden="true"
-            />
+            <X className="w-4 h-4 mr-1" aria-hidden="true" />
             Clear
           </Button>
         </div>

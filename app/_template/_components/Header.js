@@ -7,153 +7,119 @@ import logo from '@/assets/icons/logo.svg';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { FiSearch } from 'react-icons/fi';
 import { RxCross1 } from 'react-icons/rx';
-import { toast } from 'react-toastify';
 
+// Lazy Imports
 const AuthModal = dynamic(() => import('./AuthModal'), { ssr: false });
 const AuthUser = dynamic(() => import('./AuthUser'), { ssr: false });
 const HeaderCart = dynamic(() => import('./HeaderCart'), { ssr: false });
 const HeaderSearch = dynamic(() => import('./HeaderSearch'), { ssr: false });
 const LanguageSwitcher = dynamic(() => import('./LanguageSwitcher'), {
-  ssr: false,
+    ssr: false,
 });
 
 const Header = () => {
-  const [showSearchModal, setShowSearchModal] = useState(false);
-  const { siteSetting, loading } = useSiteSetting();
-  const { dictionary } = useDictionary();
-  const { user } = useUser();
-  const router = useRouter();
+    const [showSearchModal, setShowSearchModal] = useState(false);
+    const { siteSetting, loading } = useSiteSetting();
+    const { dictionary } = useDictionary();
+    const { user } = useUser();
 
-  const handleSearch = () => {
-    setShowSearchModal(!showSearchModal);
-  };
+    const handleSearch = () => {
+        setShowSearchModal(!showSearchModal);
+    };
 
-  const handleProtectedRoute = (href) => {
-    if (!user) {
-      toast.error(`Please login first`, {
-        position: 'bottom-right',
-      });
-    } else {
-      router.push(href);
-    }
-  };
+    const { header_logo } = siteSetting;
 
-  const { header_logo, isRoundedLogo = true } = siteSetting;
+    return (
+        <header className="header py-[17px] bg-[#F4F4F4] border-b border-[#D1D1D1] min-h-[75px] md:min-h-[90px]">
+            <div className="container">
+                <div className="flex items-center justify-between">
+                    {/* Logo */}
+                    <div className={`header-logo ${showSearchModal ? 'hidden' : 'block'}`}>
+                        <Link href="/" className="inline-block max-w-[200px]">
+                            {loading ? (
+                                <div className="w-24 h-8 bg-white rounded-md sm:w-32 sm:h-10 md:w-40 md:h-11 animate-pulse" />
+                            ) : (
+                                <Image
+                                    src={header_logo || logo}
+                                    alt="logo"
+                                    width={200}
+                                    height={200}
+                                    className="object-contain w-auto h-auto"
+                                />
+                            )}
+                        </Link>
+                    </div>
 
-  return (
-    <>
-      {/* Top Bar */}
-      <div className="header-top bg-[#17AF26]">
-        <div className="container">
-          <div className="flex items-center justify-end">
-            <div className="flex items-center gap-3 py-5">
-              <button
-                onClick={() =>
-                  handleProtectedRoute(`/dashboard/user/${user?.username}`)
-                }
-                className="text-base font-semibold text-white cursor-pointer"
-              >
-                My Account
-              </button>
-              <p className="text-base font-semibold text-white">|</p>
-              <button
-                onClick={() => handleProtectedRoute('/')}
-                className="text-base font-semibold text-white cursor-pointer"
-              >
-                Flash Sale
-              </button>
-              <p className="text-base font-semibold text-white">|</p>
-              <button
-                onClick={() => handleProtectedRoute('/dashboard/my-orders')}
-                className="text-base font-semibold text-white cursor-pointer"
-              >
-                Track Order
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+                    {/* Search Bar */}
+                    {loading ? (
+                        <div className="hidden w-32 bg-white rounded-full sm:block md:w-64 lg:w-80 h-9 md:h-10 animate-pulse" />
+                    ) : (
+                        <HeaderSearch
+                            showSearchModal={showSearchModal}
+                            setShowSearchModal={setShowSearchModal}
+                            dictionary={dictionary.Header}
+                        />
+                    )}
 
-      {/* Header */}
-      <header className="header py-2 bg-[#E8F7E9] border-b border-[#E8F7E9]">
-        <div className="container">
-          <div className="flex items-center justify-between">
-            {/* Logo Section */}
-            <div className={`header-logo ${showSearchModal ? 'hidden' : 'block'}`}>
-              <Link href="/" className="inline-block max-w-[200px]">
-                {loading ? (
-                  <div className="w-40 h-10 bg-white rounded-md animate-pulse" />
-                ) : (
-                  <Image
-                    src={header_logo || logo}
-                    alt="logo"
-                    width={200}
-                    height={200}
-                    className={`object-contain w-auto h-auto ${
-                      isRoundedLogo ? 'rounded-full' : ''
-                    }`}
-                  />
-                )}
-              </Link>
-            </div>
+                    <div className="flex items-center gap-2 md:gap-4">
+                        {/* Language Switcher */}
+                        {!showSearchModal &&
+                            (loading ? (
+                                <div className="w-10 h-8 bg-white rounded-full sm:w-14 sm:h-9 md:w-16 md:h-10 animate-pulse" />
+                            ) : (
+                                <LanguageSwitcher />
+                            ))}
 
-            <div className="flex items-center gap-2">
-              {/* Search */}
-              <HeaderSearch
-                showSearchModal={showSearchModal}
-                setShowSearchModal={setShowSearchModal}
-                dictionary={dictionary.Header}
-              />
+                        {/* Cart */}
+                        {!showSearchModal &&
+                            (loading ? (
+                                <div className="w-10 h-8 bg-white rounded-full sm:w-16 sm:h-9 md:w-18 md:h-10 animate-pulse" />
+                            ) : (
+                                <HeaderCart dictionary={dictionary.Header} />
+                            ))}
 
-              <div className="flex items-center gap-2 md:gap-4">
-                {!showSearchModal && <LanguageSwitcher />}
+                        {/* Mobile Search Button */}
+                        <button
+                            type="button"
+                            className="relative flex items-center justify-center text-lg md:text-[22px] text-gray-800 border border-[#D14BF8] w-10 h-10 md:w-12 md:h-12 rounded-full bg-white lg:hidden"
+                            onClick={handleSearch}
+                            aria-label="search toggle button"
+                        >
+                            {showSearchModal ? <RxCross1 /> : <FiSearch />}
+                        </button>
 
-                {/* Mobile Search Icon */}
-                <button
-                  type="button"
-                  className="relative flex items-center justify-center text-lg md:text-[22px] text-gray-800 lg:border lg:border-[#D14BF8] w-10 h-10 md:w-12 md:h-12 rounded-full bg-white lg:hidden"
-                  onClick={handleSearch}
-                  aria-label="search toggle button"
-                >
-                  {showSearchModal ? <RxCross1 /> : <FiSearch />}
-                </button>
-
-                {/* Auth Button or User Info */}
-                <div className="flex items-center gap-4">
-                  {!user ? (
-                    <AuthModal>
-                      <button
-                        type="button"
-                        aria-label="login button"
-                        className="flex items-center text-sm text-[#74787C] font-bold justify-center w-10 h-10 md:px-10 md:py-4 md:h-[50px] md:w-auto capitalize bg-white border border-white rounded-full"
-                      >
-                        <span className="hidden md:block">
-                          {dictionary.Auth.loginOrReg}
-                        </span>
-                        <span className="md:hidden">
-                          <AiOutlineLogin />
-                        </span>
-                      </button>
-                    </AuthModal>
-                  ) : (
-                    <AuthUser />
-                  )}
+                        {/* Auth Button */}
+                        <div className="flex items-center gap-4">
+                            {loading ? (
+                                <div className="hidden w-24 bg-white rounded-full md:block lg:w-28 h-9 lg:h-11 animate-pulse" />
+                            ) : !user ? (
+                                <AuthModal>
+                                    <button
+                                        type="button"
+                                        aria-label="login button"
+                                        className="flex items-center justify-center w-10 h-10 text-base text-white capitalize bg-purple-900 border border-purple-900 rounded-full md:px-5 md:py-3 md:rounded-md md:w-auto md:h-auto"
+                                    >
+                                        <span className="hidden md:block">
+                                            {dictionary.Auth.signin}
+                                        </span>
+                                        <span className="md:hidden">
+                                            <AiOutlineLogin />
+                                        </span>
+                                    </button>
+                                </AuthModal>
+                            ) : (
+                                <AuthUser />
+                            )}
+                        </div>
+                    </div>
                 </div>
-              </div>
-
-              {/* Cart */}
-              {!showSearchModal && <HeaderCart dictionary={dictionary.Header} />}
             </div>
-          </div>
-        </div>
-      </header>
-    </>
-  );
+        </header>
+    );
 };
 
 export default Header;

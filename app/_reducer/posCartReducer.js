@@ -1,12 +1,12 @@
 /* eslint-disable no-case-declarations */
 const posInitialState = {
-    posCartItems: [],
-    cartTotal: 0,
-    quantity: 1,
+  posCartItems: [],
+  cartTotal: 0,
+  quantity: 1,
 };
 
 const saveToLocalStorage = (posCartItems) => {
-    localStorage.setItem('posCartItems', posCartItems);
+  localStorage.setItem('posCartItems', posCartItems);
 };
 
 // Action types
@@ -18,103 +18,111 @@ const CLEAR_CART = 'CLEAR_CART';
 const SET_CART = 'SET_CART';
 
 const calculateCartTotal = (posCartItems) => {
-    return posCartItems.reduce(
-        (total, item) =>
-            total +
-            (item.sale_price > 0 ? item.sale_price : item.unit_price) *
-                item.quantity,
-        0
-    );
+  return posCartItems.reduce(
+    (total, item) =>
+      total +
+      (item.final_sale_price > 0 ? item.final_sale_price : item.unit_price) *
+        item.quantity,
+    0
+  );
 };
+
+const isSameCartItem = (a, b) =>
+  a.product_id === b.product_id && a.variant_sku === b.variant_sku;
 
 const posCartReducer = (state, action) => {
-    switch (action.type) {
-        case ADD_TO_CART:
-            const itemInCart = state.posCartItems.find(
-                (item) => item.barcode_or_sku_code === action.payload.barcode_or_sku_code
-            );
-            let updatedCartItems;
-            if (itemInCart) {
-                updatedCartItems = state.posCartItems.map((item) =>
-                    item.barcode_or_sku_code === action.payload.barcode_or_sku_code
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                );
-            } else {
-                updatedCartItems = [
-                    ...state.posCartItems,
-                    { ...action.payload },
-                ];
-            }
+  switch (action.type) {
+    case ADD_TO_CART:
+      const existingItem = state.posCartItems.find((item) =>
+        isSameCartItem(item, action.payload)
+      );
 
-            saveToLocalStorage(JSON.stringify(updatedCartItems));
-            return {
-                ...state,
-                posCartItems: updatedCartItems,
-                cartTotal: calculateCartTotal(updatedCartItems),
-            };
-        case REMOVE_FROM_CART:
-            const remainingItems = state.posCartItems.filter(
-                (x) => x.barcode_or_sku_code !== action.payload
-            );
-            saveToLocalStorage(JSON.stringify(remainingItems));
-            //  saveToLocalStorage(remainingItems);
-            return {
-                ...state,
-                posCartItems: remainingItems,
-                cartTotal: calculateCartTotal(remainingItems),
-            };
-        case INCREMENT_QUANTITY:
-            const incrementedItems = state.posCartItems.map((x) =>
-                x.barcode_or_sku_code === action.payload ? { ...x, quantity: x.quantity + 1 } : x
-            );
-            saveToLocalStorage(JSON.stringify(incrementedItems));
-            return {
-                ...state,
-                posCartItems: incrementedItems,
-                quantity: incrementedItems.quantity,
-                cartTotal: calculateCartTotal(incrementedItems),
-            };
-        case DECREMENT_QUANTITY:
-            const decrementedItems = state.posCartItems.map((item) => {
-                if (item.barcode_or_sku_code === action.payload) {
-                    return {
-                        ...item,
-                        quantity: Math.max(item.quantity - 1, 1),
-                    };
-                }
-                return item;
-            });
+      let updatedCart;
+      if (existingItem) {
+        updatedCart = state.posCartItems.map((item) =>
+          isSameCartItem(item, action.payload)
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        updatedCart = [...state.posCartItems, { ...action.payload }];
+      }
 
-            saveToLocalStorage(JSON.stringify(decrementedItems));
-            return {
-                ...state,
-                posCartItems: decrementedItems,
-                cartTotal: calculateCartTotal(decrementedItems),
-            };
-        case CLEAR_CART:
-            const clearCartItems = [];
-            const clearCartTotal = 0;
-            saveToLocalStorage(JSON.stringify(clearCartItems));
-            // saveToLocalStorage(JSON.stringify(decrementedItems));
-            return {
-                ...state,
-                posCartItems: clearCartItems,
-                cartTotal: clearCartTotal,
-            };
-        case SET_CART:
-            if (typeof window === undefined) return;
-            const getLocalData =
-                JSON.parse(localStorage.getItem('posCartItems')) || [];
-            return {
-                ...state,
-                posCartItems: getLocalData,
-                cartTotal: calculateCartTotal(getLocalData),
-            };
+      saveToLocalStorage(JSON.stringify(updatedCart));
+      return {
+        ...state,
+        posCartItems: updatedCart,
+        cartTotal: calculateCartTotal(updatedCart),
+      };
 
-        default:
-            return state;
-    }
+    case REMOVE_FROM_CART:
+      const filteredItems = state.posCartItems.filter(
+        (item) => !isSameCartItem(item, action.payload)
+      );
+      saveToLocalStorage(JSON.stringify(filteredItems));
+      return {
+        ...state,
+        posCartItems: filteredItems,
+        cartTotal: calculateCartTotal(filteredItems),
+      };
+
+    case INCREMENT_QUANTITY:
+      const increasedItems = state.posCartItems.map((item) =>
+        isSameCartItem(item, action.payload)
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      saveToLocalStorage(JSON.stringify(increasedItems));
+      return {
+        ...state,
+        posCartItems: increasedItems,
+        cartTotal: calculateCartTotal(increasedItems),
+      };
+
+    case DECREMENT_QUANTITY:
+      const decreasedItems = state.posCartItems.map((item) =>
+        isSameCartItem(item, action.payload)
+          ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
+          : item
+      );
+      saveToLocalStorage(JSON.stringify(decreasedItems));
+      return {
+        ...state,
+        posCartItems: decreasedItems,
+        cartTotal: calculateCartTotal(decreasedItems),
+      };
+
+    case CLEAR_CART:
+      const clearedCart = [];
+      saveToLocalStorage(JSON.stringify(clearedCart));
+      return {
+        ...state,
+        posCartItems: clearedCart,
+        cartTotal: 0,
+      };
+
+    case SET_CART:
+      if (typeof window === 'undefined') return state;
+      const storedItems =
+        JSON.parse(localStorage.getItem('posCartItems')) || [];
+      return {
+        ...state,
+        posCartItems: storedItems,
+        cartTotal: calculateCartTotal(storedItems),
+      };
+
+    default:
+      return state;
+  }
 };
 
-export { posCartReducer, posInitialState };
+export {
+  ADD_TO_CART,
+  CLEAR_CART,
+  DECREMENT_QUANTITY,
+  INCREMENT_QUANTITY,
+  posCartReducer,
+  posInitialState,
+  REMOVE_FROM_CART,
+  SET_CART,
+};

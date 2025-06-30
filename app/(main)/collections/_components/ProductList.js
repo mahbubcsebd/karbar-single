@@ -41,17 +41,12 @@ const ProductList = ({ category }) => {
   const { sortQuery, setSortQuery } = useContext(SortContext);
   const { brandQuery, setBrandQuery } = useContext(BrandContext);
   const [sortValue, setSortValue] = useState(sortQuery);
-  const [brandValue, setBrandValue] = useState(sortQuery);
+  const [brandValue, setBrandValue] = useState(brandQuery);
 
   // ----------------------------
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Ensure this code runs only on the client
-    setIsClient(true);
-  }, []);
 
   // Extract category and subcategory from URL
   const pathSegments = pathname.split('/').filter(Boolean);
@@ -65,6 +60,10 @@ const ProductList = ({ category }) => {
     currentSubCategory || ''
   );
   const [subCategories, setSubCategories] = useState([]);
+
+  // Track if we're in the middle of a category change to prevent double renders
+  const isChangingCategory = useRef(false);
+
   // ----------------------------
 
   const { sortBy, brandsLang, all, newArrival, bestSelling, discount } =
@@ -74,45 +73,98 @@ const ProductList = ({ category }) => {
     return productItem;
   }, [productItem]);
 
-  const handleCategory = async (categoryName) => {
-    setSelectedCategory(categoryName);
-    setSortQuery('all');
-    router.push(`/collections/${categoryName}`);
-  };
+  // Optimized category handler with single state update
+  const handleCategory = useCallback(
+    async (categoryName) => {
+      if (isChangingCategory.current) return;
 
-  const handleAllFilter = async (categoryName) => {
-    router.push(`/collections/all`);
+      isChangingCategory.current = true;
+
+      // Update all states in a single batch
+      setSelectedCategory(categoryName);
+      setSelectedSubCategory('all');
+      setSortQuery('all');
+      setBrandQuery('all');
+      setPage(1);
+
+      // Navigate after state updates
+      router.push(`/collections/${categoryName}`);
+
+      // Reset the flag after navigation
+      setTimeout(() => {
+        isChangingCategory.current = false;
+      }, 100);
+    },
+    [router, setSortQuery, setBrandQuery]
+  );
+
+  const handleAllFilter = useCallback(async () => {
+    if (isChangingCategory.current) return;
+
+    isChangingCategory.current = true;
+
     setSelectedCategory('all');
+    setSelectedSubCategory('all');
     setSortQuery('all');
-  };
+    setBrandQuery('all');
+    setPage(1);
 
-  const handleSortChange = (event) => {
-    setSortValue(event.target.value);
-    setSortQuery(event.target.value);
-  };
+    router.push(`/collections/all`);
 
-  const handleBrandChange = (event) => {
-    setBrandValue(event.target.value);
-    setBrandQuery(event.target.value);
-  };
+    setTimeout(() => {
+      isChangingCategory.current = false;
+    }, 100);
+  }, [router, setSortQuery, setBrandQuery]);
 
+  const handleSortChange = useCallback(
+    (event) => {
+      const newSortValue = event.target.value;
+      setSortValue(newSortValue);
+      setSortQuery(newSortValue);
+      setPage(1);
+    },
+    [setSortQuery]
+  );
+
+  const handleBrandChange = useCallback(
+    (event) => {
+      const newBrandValue = event.target.value;
+      setBrandValue(newBrandValue);
+      setBrandQuery(newBrandValue);
+      setPage(1);
+    },
+    [setBrandQuery]
+  );
+
+  // Initialize client-side state
   useEffect(() => {
-    const fetchCategory = async () => {
+    setIsClient(true);
+  }, []);
+
+  // Fetch categories and brands once
+  useEffect(() => {
+    const fetchInitialData = async () => {
       try {
-        const categoriesData = await getAllCategories(language);
-        const brandsData = await getBrands();
+        const [categoriesData, brandsData] = await Promise.all([
+          getAllCategories(language),
+          getBrands(),
+        ]);
         setCategories(categoriesData.data);
         setBrands(brandsData.data);
       } catch (error) {
-        console.error('Failed to fetch products:', error);
-        console.error('Failed to fetch brands:', error);
+        console.error('Failed to fetch initial data:', error);
       }
     };
 
-    fetchCategory();
-  }, [language]);
+    if (isClient) {
+      fetchInitialData();
+    }
+  }, [language, isClient]);
 
+  // Single effect for product fetching with dependency optimization
   useEffect(() => {
+    if (!isClient || isChangingCategory.current) return;
+
     const fetchProduct = async () => {
       try {
         setLoading(true);
@@ -142,29 +194,55 @@ const ProductList = ({ category }) => {
       }
     };
 
-    fetchProduct();
+    // Debounce the product fetch to prevent rapid calls
+    const timeoutId = setTimeout(fetchProduct, 100);
+
+    return () => clearTimeout(timeoutId);
   }, [
+    isClient,
     language,
     selectedCategory,
+    selectedSubCategory,
     sortQuery,
     searchQuery,
-    selectedSubCategory,
     page,
     brandQuery,
+    showProduct,
   ]);
 
-  const options = [
-    { value: null, label: all },
-    { value: 'new_arrival', label: newArrival },
-    { value: 'best_selling', label: bestSelling },
-    { value: 'discount', label: discount },
-  ];
+  // Sync URL changes with state (only when not changing category programmatically)
+  useEffect(() => {
+    if (!isClient || isChangingCategory.current) return;
+
+    const urlCategory = pathSegments[1] || '';
+    const urlSubCategory = searchParams.get('sub_category') || '';
+
+    if (
+      urlCategory !== selectedCategory ||
+      urlSubCategory !== selectedSubCategory
+    ) {
+      setSelectedCategory(urlCategory);
+      setSelectedSubCategory(urlSubCategory);
+      setPage(1);
+    }
+  }, [pathname, searchParams, isClient]);
+
+  const options = useMemo(
+    () => [
+      { value: null, label: all },
+      { value: 'new_arrival', label: newArrival },
+      { value: 'best_selling', label: bestSelling },
+      { value: 'discount', label: discount },
+    ],
+    [all, newArrival, bestSelling, discount]
+  );
 
   const handleSeeMore = useCallback(() => {
     setPage((prevPage) => prevPage + 1);
     setIsSeeMoreClick(true);
   }, []);
 
+  // Intersection Observer for infinite scroll
   useEffect(() => {
     if (productItem.length >= totalProduct) {
       if (loaderRef.current) {
@@ -194,8 +272,8 @@ const ProductList = ({ category }) => {
     };
   }, [loading, productItem.length, totalProduct, handleSeeMore]);
 
+  // Horizontal scroll handler
   const scrollContainerRef = useRef(null);
-
   useEffect(() => {
     const container = scrollContainerRef.current;
 
@@ -218,15 +296,11 @@ const ProductList = ({ category }) => {
   }, []);
 
   if (!isClient) {
-    // Return null or a fallback during SSR
     return null;
   }
 
   return (
-    <div
-      id="product-section"
-      className="mb-20 pt-[60px] product-section"
-    >
+    <div id="product-section" className="mb-20 pt-[60px] product-section">
       <div className="product-area">
         <div className="container">
           <div className="product-filter flex flex-col lg:flex-row justify-between gap-4 mb-[30px]">
@@ -250,6 +324,8 @@ const ProductList = ({ category }) => {
                 setSortQuery={setSortQuery}
                 setBrandQuery={setBrandQuery}
                 router={router}
+                onCategoryChange={handleCategory}
+                onAllFilter={handleAllFilter}
               />
             </div>
             <div className="flex items-center gap-4">
@@ -266,17 +342,11 @@ const ProductList = ({ category }) => {
                       onChange={handleBrandChange}
                       aria-label={`${brandsLang} filter`}
                     >
-                      <option
-                        key={0}
-                        value="all"
-                      >
+                      <option key={0} value="all">
                         All Brand
                       </option>
                       {brands.map((brand) => (
-                        <option
-                          key={brand.id}
-                          value={brand.id}
-                        >
+                        <option key={brand.id} value={brand.id}>
                           {brand.name}
                         </option>
                       ))}
@@ -301,10 +371,7 @@ const ProductList = ({ category }) => {
                       aria-label={`${sortBy} options`}
                     >
                       {options.map((option) => (
-                        <option
-                          key={option.value}
-                          value={option.value}
-                        >
+                        <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
                       ))}
@@ -324,10 +391,7 @@ const ProductList = ({ category }) => {
           ) : memoizedProductsArray.length > 0 ? (
             <div className="product-list grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-[30px] items-stretch">
               {memoizedProductsArray.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
+                <ProductCard key={product.id} product={product} />
               ))}
             </div>
           ) : (
@@ -341,10 +405,7 @@ const ProductList = ({ category }) => {
           )}
 
           {/* Loader element for infinite scroll */}
-          <div
-            ref={loaderRef}
-            className="flex justify-center pt-5"
-          >
+          <div ref={loaderRef} className="flex justify-center pt-5">
             {loading && productItem.length < totalProduct && (
               <div className="loader"></div>
             )}

@@ -6,7 +6,8 @@
     "cartEmpty": "السلة فارغة",
     "total": "المجموع",
     "order": "اطلب الآن",
-    "currency": "تاكا"
+    "currency": "تاكا",
+    "showAll": "تصفح الكل"
   },
   "Auth": {
     "profile": "الملف الشخصي",
@@ -64,6 +65,19 @@
     "cancel": "إلغاء",
     "addressPlaceholder": "أدخل عنوانك هنا",
     "all": "الكل"
+  },
+  "Cart": {
+    "pageTitle": "سلة التسوق الخاصة بك",
+    "tableProduct": "المنتج",
+    "tableName": "الاسم",
+    "tableQuantity": "الكمية",
+    "tablePrice": "السعر",
+    "tableTotal": "الإجمالي",
+    "tableSubTotal": "المجموع الفرعي",
+    "tableAction": "إزالة",
+    "tableEmpty": "سلة التسوق فارغة",
+    "tableCheckout": "المتابعة إلى الدفع",
+    "tableEmptyDesc": "يبدو أنك لم تقم بإضافة أي شيء إلى سلة التسوق بعد."
   },
   "Categories": {
     "allProduct": "جميع المنتجات",

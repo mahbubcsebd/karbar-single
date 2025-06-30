@@ -100,7 +100,7 @@ export default function MegaMenuNavigation() {
 
         {/* ✅ Mobile Dropdown Overlay Menu */}
         <div className="relative md:hidden">
-         <div
+          <div
             className={`absolute top-full left-0 w-full bg-white border-t border-gray-200 shadow-md z-[999] transition-all duration-300 ease-in-out ${
               menuOpen
                 ? 'opacity-100 translate-y-0 max-h-[400px]'
@@ -152,7 +152,7 @@ export default function MegaMenuNavigation() {
 
                   {category.sub_category?.length > 0 && (
                     <div
-                      className={`absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-48 bg-white shadow-lg rounded-md z-50 transition-all duration-200 ${
+                      className={`absolute left-1/2 transform -translate-x-1/2 max-h-[400px] lg:max-h-[500px] overflow-y-auto top-full mt-2 w-48 bg-white shadow-lg rounded-md z-50 transition-all duration-200 ${
                         activeCategory === category.slug
                           ? 'opacity-100 visible translate-y-0'
                           : 'opacity-0 invisible -translate-y-2'

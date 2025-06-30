@@ -14,27 +14,34 @@ const PosProductCard = ({ product }) => {
   const pos_theme_style = siteSetting?.pos_theme_style || 'image_with_title';
 
   const {
-    product_name_with_attr,
+    product_name,
     unit_price,
-    sale_price,
+    final_sale_price,
     preview_image,
-    barcode_or_sku_code,
+    product_id,
+    variant_sku,
     quantity,
+    available_stock,
   } = product;
 
   const { state, dispatch } = usePos();
 
-  const selectedProduct = { ...product, stock:quantity, quantity: 1 };
+  const selectedProduct = {
+    ...product,
+    stock: available_stock,
+    quantity: 1,
+  };
 
   const handleAddToCart = () => {
     const productInCart = state.posCartItems.find(
-      (item) => item.barcode_or_sku_code === barcode_or_sku_code
+      (item) =>
+        item.product_id === product_id && item.variant_sku === variant_sku
     );
 
     if (productInCart) {
       dispatch({
         type: 'INCREMENT_QUANTITY',
-        payload: barcode_or_sku_code,
+        payload: { product_id, variant_sku },
       });
     } else {
       dispatch({
@@ -47,65 +54,68 @@ const PosProductCard = ({ product }) => {
   const renderImage = () => (
     <Image
       src={preview_image || noAvailableImg}
-      alt={product_name_with_attr}
+      alt={product_name}
       width={270}
       height={320}
-      className="object-cover w-full h-full"
+      className="object-contain w-full h-full"
     />
   );
 
-const renderStockBadge = () => {
-  const isOnlyTitle = pos_theme_style === 'only_title';
-  const badgeClass = isOnlyTitle
-    ? 'border border-gray-400 bg-transparent text-gray-800'
-    : quantity > 0
-    ? 'bg-[#28A745] text-white'
-    : 'bg-[#F44336] text-white';
+  const renderStockBadge = () => {
+    const isOnlyTitle = pos_theme_style === 'only_title';
+    const badgeClass = isOnlyTitle
+      ? 'border border-gray-400 bg-transparent text-gray-800'
+      : available_stock > 0
+      ? 'bg-[#28A745] text-white'
+      : 'bg-[#F44336] text-white';
 
-  return (
-    <div
-      className={`absolute top-1 right-1 p-[6px] rounded-full text-[9px] ${badgeClass}`}
-    >
-      <p>{quantity > 0 ? `${quantity} In Stock` : 'Out of stock'}</p>
-    </div>
-  );
-};
+    return (
+      <div
+        className={`absolute top-1 right-1 p-[6px] rounded-full text-[9px] ${badgeClass}`}
+      >
+        <p>
+          {available_stock > 0 ? `${available_stock} In Stock` : 'Out of stock'}
+        </p>
+      </div>
+    );
+  };
 
-const renderPriceBadge = () => {
-  const isOnlyTitle = pos_theme_style === 'only_title';
-  const isOnlyImage = pos_theme_style === 'only_image';
+  const renderPriceBadge = () => {
+    const isOnlyTitle = pos_theme_style === 'only_title';
+    const isOnlyImage = pos_theme_style === 'only_image';
 
-  if (!isOnlyTitle && !isOnlyImage) return null;
+    if (!isOnlyTitle && !isOnlyImage) return null;
 
-  const badgeClass = isOnlyTitle
-    ? 'border border-gray-400 bg-transparent text-gray-800'
-    : 'bg-black text-white';
+    const badgeClass = isOnlyTitle
+      ? 'border border-gray-400 bg-transparent text-gray-800'
+      : 'bg-black text-white';
 
-  return (
-    <div
-      className={`absolute top-1 left-1 p-[6px] rounded-full text-[9px] font-semibold ${badgeClass}`}
-    >
-      {`${siteSetting.currency_icon || '৳'}${sale_price === 0 ? unit_price : sale_price}`}
-    </div>
-  );
-};
-
+    return (
+      <div
+        className={`absolute top-1 left-1 p-[6px] rounded-full text-[9px] font-semibold ${badgeClass}`}
+      >
+        {`${siteSetting.currency_icon || '৳'}${
+          final_sale_price === 0 ? unit_price : final_sale_price
+        }`}
+      </div>
+    );
+  };
 
   return (
     <div className="h-full overflow-hidden bg-white rounded-lg product-card">
       <button
         onClick={handleAddToCart}
-        disabled={quantity <= 0}
+        disabled={available_stock <= 0}
         className={`block w-full relative cursor-pointer ${
           pos_theme_style === 'only_title'
-            ? 'h-[122px] bg-white flex items-center justify-center rounded-t-md border-b border-gray-200'
-            : 'h-[122px] overflow-hidden rounded-t-md'
+            ? 'h-[130px] bg-white flex items-center justify-center rounded-t-md border-b border-gray-200'
+            : 'h-[130px] overflow-hidden rounded-t-md'
         }`}
       >
         {pos_theme_style === 'only_title' ? (
           <>
             <div className="px-2 text-sm font-semibold text-center text-gray-700 capitalize">
-              {product_name_with_attr}
+              {product_name}
             </div>
             {renderStockBadge()}
             {renderPriceBadge()}
@@ -113,7 +123,7 @@ const renderPriceBadge = () => {
         ) : (
           <>
             {renderImage()}
-            {renderStockBadge()}
+            {pos_theme_style === 'only_image' && renderStockBadge()}
             {renderPriceBadge()}
           </>
         )}
@@ -121,18 +131,34 @@ const renderPriceBadge = () => {
 
       {pos_theme_style === 'image_with_title' && (
         <div className="p-[6px] bg-white">
-          <button
-            onClick={handleAddToCart}
-            disabled={quantity <= 0}
-            className="block w-full mb-1 text-sm font-medium text-left text-gray-900 capitalize ellipsis-2"
-          >
-            {product_name_with_attr}
-          </button>
-          <p className="text-[10px] font-semibold text-gray-900">
-            {`${siteSetting.currency_icon || '৳'}${
-              sale_price === 0 ? unit_price : sale_price
-            }`}
-          </p>
+          <div className="border-b border-gray-300 pb-1 mb-1">
+            <button
+              onClick={handleAddToCart}
+              disabled={available_stock <= 0}
+              className="block w-full text-base font-medium text-left text-gray-900 capitalize ellipsis-2 min-h-12"
+              title={product_name}
+              aria-label={`Add ${product_name} to cart`}
+            >
+              {product_name}
+            </button>
+          </div>
+          <div className="flex justify-between items-center gap-2">
+            <p className="text-lg font-medium text-gray-900 flex items-start gap-1">
+              <span className="text-sm text-[#28A745] mt-[4px] font-bold">
+                {siteSetting.currency_icon || '৳'}
+              </span>
+              {`${final_sale_price === 0 ? unit_price : final_sale_price}`}
+            </p>
+            <p
+              className={`text-sm ${
+                available_stock > 0 ? 'text-gray-700' : 'text-[#F44336]'
+              }`}
+            >
+              {available_stock > 0
+                ? `${available_stock} In Stock`
+                : 'Out of stock'}
+            </p>
+          </div>
         </div>
       )}
     </div>

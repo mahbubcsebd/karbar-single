@@ -1,17 +1,25 @@
-import React from 'react';
+import useSiteSetting from '@/_hooks/useSiteSetting';
 
-const SectionTitle = ({ title, position }) => {
-    return (
-        <div
-            className={`flex md:mb-[60px] mb-6 ${
-                position === 'start' ? '' : 'justify-center'
-            }`}
+const SectionTitle = ({ preTitle, postTitle, position }) => {
+  const { siteSetting } = useSiteSetting();
+  return (
+    <div
+      className={`flex md:mb-[60px] mb-6 ${
+        position === 'start' ? '' : 'justify-center'
+      }`}
+    >
+      <h2 className="text-2xl font-semibold text-gray-800 capitalize md:text-4xl">
+        {preTitle}{' '}
+        <span
+          style={{ color: siteSetting?.btn_bg_color }}
+          // className="text-[#348E29]"
         >
-            <h2 className="text-2xl font-semibold text-gray-800 capitalize md:text-4xl">
-                {title}
-            </h2>
-        </div>
-    );
+          {' '}
+          {postTitle}
+        </span>
+      </h2>
+    </div>
+  );
 };
 
-export default SectionTitle
+export default SectionTitle;

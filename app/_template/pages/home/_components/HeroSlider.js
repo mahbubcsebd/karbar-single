@@ -27,6 +27,10 @@ const HeroSlider = () => {
     fetchHero();
   }, []);
 
+  if (!loading && images.length < 1) {
+    return null;
+  }
+
   return (
     <div id="hero" className="hero">
       <div className="hero-area">
@@ -49,7 +53,10 @@ const HeroSlider = () => {
             >
               {images.map((img, index) => (
                 <SwiperSlide key={img.id}>
-                  <Link href={img.url} aria-label={`View details for ${img.title}`}>
+                  <Link
+                    href={img.url}
+                    aria-label={`View details for ${img.title}`}
+                  >
                     <div className="relative w-full h-[120px] md:h-[320px] lg:h-[370px]">
                       <Image
                         src={img.image_url}
